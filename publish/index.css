@@ -1,0 +1,91 @@
+body {
+    height: 100vh;
+}
+div.section-flight {
+    background-image: url("/pic/travel_plane_corona.jpg");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-clip:border-box;
+    border-radius: 0% 0% 3% 3%;
+}
+
+.bg-white {
+    background-color: white;
+}
+
+.bg-ocean {
+    background-color: #00C9E3;
+}
+
+.bg-blur {
+    background-color: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(8px);
+}
+
+.fc-ocean {
+    color: #00C9E3;
+}
+
+.autocomplete {
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+  }
+
+.autocomplete-items {
+    box-sizing: border-box;
+    max-height: 1000%;
+    position: absolute;
+    border: 1px solid #d4d4d4;
+    border-bottom: none;
+    border-top: none;
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    right: 0;
+    overflow-y: scroll;
+    -ms-overflow-style: none; 
+    scrollbar-width: none;
+}
+
+.autocomplete-items::-webkit-scrollbar {
+    display: none;
+}
+
+.autocomplete-items div {
+    box-sizing: border-box;
+    padding: 10px;
+    cursor: pointer;
+    background-color: #fff;
+    border-bottom: 1px solid #d4d4d4;
+  }
+
+.autocomplete-items div:hover {
+    background-color: #e9e9e9;
+  }
+
+.autocomplete-active {
+    background-color: DodgerBlue !important;
+    color: #ffffff;
+}
+
+.autocomplete-active .text-muted{
+    color: #ffffff !important;
+}
+
+@media (max-width: 720px){
+    div.section-flight {
+        background-size: 200%;
+    }
+}
+
+@media (max-height: 500px){
+    .autocomplete-items {
+        max-height: 400%;
+    }
+}
+
+.hidden {
+    display: none;
+}

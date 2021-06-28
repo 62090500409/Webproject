@@ -1,0 +1,144 @@
+<% for(let i = 0; i < flights.length; i++){ %>
+    <div class="container-sm rounded-3 position-relative bg-white mb-3 shadow-sm px-0 each-flight-search-result">
+        <div class="row px-3 py-2" role="button" data-bs-toggle="collapse" href="#flight-<%= flights[i]._id %>" aria-expanded="false">
+            <div class="col-6 col-md-3 col-lg-4 pe-0 align-self-center airline-detail">
+                <img src=".<%= flights[i].transits[0].flight.airline.logo_path %>" class="pe-0 py-auto airline-logo" style="height: 30px;">
+                <span class="ms-2 fw-bold align-middle airline-name" style="font-size: 1rem;"><%= flights[i].transits[0].flight.airline.name %> <span class="fw-bold text-secondary" style="font-size: 0.8rem;"><%= flights[i].class %></span></span>
+            </div>
+            <div class="col-6 col-md-4 col-lg-4 ps-0 travel-detail">
+                <div class="row justify-content-center">
+                    <div class="col-5 col-md-3 col-lg-4 text-center pe-0">
+                        <label class="text-muted fw-bold" style="font-size: 0.5rem;"><%= new Date(flights[i].transits[0].departuredate).toDateString().slice(4) %></label><br>
+                        <label class="fw-bold departure-time" style="font-size: 1rem;"><%= flights[i].transits[0].flight.departuretime %></label><br>
+                        <label class="text-muted fw-bold departure-from-iata"><%= flights[i].transits[0].flight.from.iata %></label>
+                    </div>
+                    <div class="col-2 col-md-2 mx-md-1 text-center px-0">
+                        <label class="text-muted fw-bold" style="font-size: 0.5rem;">
+                            <% if(flights[i].transits.length == 1){ %>direct
+                            <% } else if(flights[i].transits.length == 2){ %>1 transit
+                            <% } else if(flights[i].transits.length > 2){ %><%= flights[i].transits.length - 1 %> transits<% } %> 
+                        </label><br>
+                        <span class="text-primary align-middle"><i class="fas fa-plane fs-6"></i></span><br>
+                        <label class="fw-bold" style="font-size: 0.6rem;"><%= flights[i].totalduration %></label><br>
+                    </div>
+                    <div class="col-5 col-md-3 col-lg-4 text-center ps-0">
+                        <label class="text-muted fw-bold" style="font-size: 0.5rem;"><%= new Date(flights[i].transits[flights[i].transits.length - 1].arrivaldate).toDateString().slice(4) %></label><br>
+                        <label class="fw-bold arrival-time" style="font-size: 1rem;"><%= flights[i].transits[flights[i].transits.length - 1].flight.arrivaltime %></label><br>
+                        <label class="text-muted fw-bold arrival-to-iata"><%= flights[i].transits[flights[i].transits.length - 1].flight.to.iata %></label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-md-5 col-lg-4 mt-3 align-self-center text-end">
+                <span class="fw-bold fs-5 me-2 align-middle total-price"><%= flights[i].price.total %> <span class="total-currency">USD<span></span>
+                <input type="hidden" class="total-price-input-hidden" value="<%= flights[i].price.total %>">
+                <button class="btn btn-primary ms-1 select-flight-btn">SELECT</button>
+                <input type="hidden" value="<%= flights[i]._id %>">
+            </div>
+        </div>
+        <div class="collapse pb-3 px-3 align-self-center flight-collapse" id="flight-<%= flights[i]._id %>">
+            <hr class="my-0">
+            <div class="container px-3 mb-3">
+                <% for(let j = 0; j < flights[i].transits.length; j++) {%>
+                    <div class="row mb-2">
+                        <div class="col col-lg-12 border rounded-3 mt-3 py-2 px-3">
+                            <label class="fw-bold fs-5"><%= flights[i].transits[j].flight.airline.name + ' ' + flights[i].transits[j].flight.name %></label><br>
+                            <label class="fw-bold text-primary" style="font-size: 0.8rem;">aircraft <%= flights[i].transits[j].flight.aircraft.model %></label>
+                            <label class="fw-bold text-secondary" style="font-size: 0.8rem;">seat <%= flights[i].transits[j].flight.aircraft.seats[flights[i].class].seatlayout %></label>
+                            <label class="fw-bold text-secondary" style="font-size: 0.8rem;">seat pitch <%= flights[i].transits[j].flight.aircraft.seats[flights[i].class].seatpitch %> inch.</label>
+                        </div>
+                    </div>
+                    <div class="row border rounded-3 pb-3 px-3 mb-3">
+                        <div class="col-xl-7 me-3 mt-3">
+                            <div class="row justify-content-center p-3">
+                                <div class="col-4 col-md-2 text-end me-2">
+                                    <label class="fw-bold" style="font-size: 0.6rem;"><%= new Date(flights[i].transits[j].departuredate).toDateString().slice(4) %></label><br>
+                                    <label class="fw-bold fs-4"><%= flights[i].transits[j].departuretime %></label><br>
+                                    <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><%= flights[i].transits[j].flight.from.shortname + ' (' + flights[i].transits[j].flight.from.iata + ')' %></label>
+                                </div>
+                                <div class="col-3 col-sm col-md-6 position-relative align-self-center text-center px-0">
+                                    <div class="progress" style="height: 2px;">
+                                        <div class="progress-bar" style="width: 100%;"></div>
+                                    </div>
+                                    <button type="button" class="position-absolute top-0 start-0 translate-middle btn btn-sm btn-primary rounded-circle" style="height:1.1rem;"></button>
+                                    <button type="button" class="position-absolute top-0 start-100 translate-middle btn btn-sm btn-primary rounded-circle" style="height:1.1rem;"></button>
+                                    <label class="fw-bold text-primary"><%= flights[i].transits[j].duration %></label><br>
+                                </div>
+                                <div class="col-4 col-md-2 test-start ms-2">
+                                    <label class="fw-bold" style="font-size: 0.6rem;"><%= new Date(flights[i].transits[j].arrivaldate).toDateString().slice(4) %></label><br>
+                                    <label class="fw-bold fs-4"><%= flights[i].transits[j].flight.arrivaltime %></label><br>
+                                    <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><%= flights[i].transits[j].flight.to.shortname + ' (' + flights[i].transits[j].flight.to.iata + ')' %></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg border rounded-3 mt-3 me-3 py-2 px-3">
+                            <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fas fa-luggage-cart me-2"></i>
+                                <% if(flights[i].transits[j].flight.class[flights[i].class].facility.baggage.number < 1) { %>baggage (buy in at booking)
+                                <% } else { %>baggage <%= '(x' + flights[i].transits[j].flight.class[flights[i].class].facility.baggage.number + ') ' + flights[i].transits[j].flight.class[flights[i].class].facility.baggage.weight %>)<% } %>
+                            </label><br>
+                            <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fas fa-suitcase me-2"></i>
+                                cabin baggage <%= flights[i].transits[j].flight.class[flights[i].class].cabin_baggage %> kg.
+                            </label><br>
+                            <% if(flights[i].transits[j].flight.class[flights[i].class].facility.extra_baggage == 'on') { %>
+                                <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fas fa-info-circle me-2"></i>extra baggage is available</label>
+                            <% } else { %>
+                                <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><i class="fas fa-info-circle me-2"></i>extra baggage is not available</label>
+                            <% } %>
+                        </div>
+                        <div class="col-lg border rounded-3 mt-3 me-3 py-2 px-3">
+                            <% if(flights[i].transits[j].flight.class[flights[i].class].facility.entertainment  == 'on') { %>
+                                <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fas fa-photo-video me-2"></i>inflight entertainment</label><br>
+                            <% } else {%>
+                                <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><i class="fas fa-photo-video me-2"></i>inflight entertainment</label><br>
+                            <% } %>
+                            <% if(flights[i].transits[j].flight.class[flights[i].class].facility.meal == 'on') { %>
+                                <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fas fa-utensils me-2"></i>inflight meal</label><br>
+                            <% } else {%>
+                                <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><i class="fas fa-utensils me-2"></i>inflight meal</label><br>
+                            <% } %>
+                            <% if(flights[i].transits[j].flight.class[flights[i].class].facility.wifi == 'on') { %>
+                                <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fas fa-wifi me-2"></i>wifi</label><br>
+                            <% } else {%>
+                                <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><i class="fas fa-wifi me-2"></i>wifi</label><br>
+                            <% } %>
+                            <% if(flights[i].transits[j].flight.class[flights[i].class].facility.usbport == 'on') { %>
+                                <label class="fw-bold text-primary" style="font-size: 0.8rem;"><i class="fab fa-usb me-2"></i>USB port</label>
+                            <% } else {%>
+                                <label class="fw-bold text-secondary" style="font-size: 0.8rem;"><i class="fab fa-usb me-2"></i>USB port</label>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+                <div class="row border rounded-3 p-2">
+                    <label class="fw-bold">Price Details</label><br>
+                    <div class="col">
+                        <label class="ms-2 fw-bold" style="font-size: 0.8rem;">Adult Basic Fare (x<%= params.adult %>)</label><br>
+                        <% if(parseInt(params.child) > 0) {%> 
+                            <label class="ms-2 fw-bold" style="font-size: 0.8rem;">Childe Basic Fare (x<%= params.child %>)</label><br>
+                        <% } %>
+                        <% if(parseInt(params.infant) > 0) {%> 
+                            <label class="ms-2 fw-bold" style="font-size: 0.8rem;">Infant Basic Fare (x1<%= params.infant %>)</label><br>
+                        <% } %>
+                        <label class="ms-2 fw-bold text-secondary" style="font-size: 0.8rem;">Tex.</label><br>
+                    </div>
+                    <div class="col text-end">
+                        <label class="fw-bold"><%= flights[i].price.adult %> USD</label><br>
+                        <% if(parseInt(params.child) > 0) {%> 
+                            <label class="fw-bold"><%= flights[i].price.child %> USD</label><br>
+                        <% } %>
+                        <% if(parseInt(params.infant) > 0) {%> 
+                            <label class="fw-bold"><%= flights[i].price.infant %> USD</label><br>
+                        <% } %>
+                        <label class="fw-bold text-secondary">included</label><br>
+                    </div>
+                    <hr class="my-2">
+                    <div class="col">
+                        <label class="ms-2 fw-bold">total</label><br>
+                    </div>
+                    <div class="col text-end">
+                        <label class="fw-bold text-primary"><%= flights[i].price.total %> USD</label><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<% }; %>

@@ -1,0 +1,153 @@
+<script type="module" src="/admin-country-city.js" async></script>
+<div class="chartjs-size-monitor">
+    <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+    <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+</div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h3><i class="fas fa-flag me-2"></i>Country</h3>
+  <div class="btn-toolbar mb-2 mb-md-0 px-2">
+    <div class="input-group me-2">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input type="text" id="country-filter" class="form-control" placeholder="Search">
+    </div>
+  </div>
+</div>
+
+<div class="container rounded position-relative bg-white shadow-sm my-3 px-0">
+  <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-country-form" aria-expanded="false">
+      <h3 class="text-primary"><i class="fas fa-plus-circle me-2"></i>New Country</h3>
+  </div>
+  <hr>
+  <div class="collapse pt-1 pb-3 px-3" id="new-country-form">
+      <form method="POST" action="/admin/new/country" enctype="multipart/form-data">
+          <div class="row mb-3">
+              <div class="col-md-6">
+                  <label class="fw-bold form-label">Name and Initial</label>
+                  <div class="input-group">
+                      <input type="text" class="form-control" name="name" placeholder="Country's name" required>
+                      <input type="text" class="form-control" name="initial" placeholder="Country's initial" required>
+                  </div>
+              </div>
+              <div class="col-md-6">
+                  <label class="fw-bold form-label">Flag</label>
+                  <input class="form-control" type="file" id="flag-img-file" name="flag" accept="image/*">
+              </div>
+          </div>
+          <div class="d-flex">
+              <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+          </div>
+      </form>
+  </div>
+</div>
+
+<div class="table-responsive mb-2">
+  <table id="country-table" class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Flag</th>
+        <th>Name</th>
+        <th>Initial</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <% for(let i = 0; i < countries.length; i++) { %> 
+            <tr class="align-middle">
+                <td><img src="<%= countries[i].flag %>" width="24" height="16" style="object-fit: cover;"></td>
+                <td><%= countries[i].name %></td>
+                <td><%= countries[i].initial %></td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm country-edit-modal-btn" data-bs-toggle="modal" data-bs-target="#country-edit-modal"><i class="fas fa-edit"></i></button>
+                    <input type="hidden" value="<%= countries[i]._id %>">
+                </td>
+            </tr>
+      <% } %> 
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="country-edit-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h3><i class="fas fa-city me-2"></i>City</h3>
+  <div class="btn-toolbar mb-2 mb-md-0 px-2">
+    <div class="input-group me-2">
+        <span class="input-group-text"><i class="fas fa-search"></i></span>
+        <input type="text" id="city-filter" class="form-control" placeholder="Search">
+    </div>
+  </div>
+</div>
+
+<div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+  <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-city-form" aria-expanded="false">
+      <h3 class="text-primary"><i class="fas fa-plus-circle me-2"></i>New City</h3>
+  </div>
+  <hr>
+  <div class="collapse pt-1 pb-3 px-3" id="new-city-form">
+      <form method="POST" action="/admin/new/city">
+          <div class="row mb-3">
+              <div class="col-md-6">
+                  <label class="fw-bold form-label">Name</label>
+                  <input type="text" class="form-control" name="name" placeholder="City's name" required>
+              </div>
+              <div class="col-md-4">
+                  <label class="fw-bold form-label">Country</label>
+                  <select class="form-select" name="country">
+                      <% countries.forEach(country => { %> 
+                          <option value="<%= country._id %>"><%= country.name %></option> 
+                      <% }); %>
+                  </select>
+              </div>
+              <div class="col-md-2">
+                  <label class="fw-bold form-label">Timezone</label>
+                  <div class="input-group">
+                      <span class="input-group-text">UTC</span>
+                      <input type="number" class="form-control" name="utc" placeholder="Timezone" min='-12' max='12' value="0" required>
+                  </div>
+                  </select>
+              </div>
+          </div>
+          <div class="d-flex">
+              <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+          </div>
+      </form>
+  </div>
+</div>
+
+<div class="table-responsive mb-2">
+  <table id="city-table" class="table table-striped table-sm">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Timezone</th>
+        <th>Country</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+        <% for(let i = 0; i < cities.length; i++) { %> 
+            <tr class="align-middle">
+                <td><%= cities[i].name %></td>
+                <td>UTC<% if(cities[i].UTC >= 0) { %>+<% } %><%= cities[i].UTC %></td>
+                <td><img src="<%= cities[i].country.flag %>" width="24" height="16" class="me-2" style="object-fit: cover;"><%= cities[i].country.name %></td>
+                <td>
+                    <button type="button" class="btn btn-outline-primary btn-sm city-edit-modal-btn" data-bs-toggle="modal" data-bs-target="#city-edit-modal"><i class="fas fa-edit"></i></button>
+                    <input type="hidden" value="<%= cities[i]._id %>">
+                </td>
+            </tr>
+      <% } %> 
+    </tbody>
+  </table>
+</div>
+
+<div class="modal fade" id="city-edit-modal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+      </div>
+  </div>
+</div>

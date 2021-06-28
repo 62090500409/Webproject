@@ -1,0 +1,46 @@
+<nav class="navbar navbar-expand-md navbar-light bg-white shadow">
+    <div class="container-fluid ps-lg-5">
+        <a class="navbar-brand fs-4" href="/home">
+            <label class="fc-ocean"><i class="fas fa-paper-plane"></i> PAPERFLY<label>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <ul class="navbar-nav me-auto">
+                <% if(!currentUser) { %>
+                    <li class="nav-item"><a class="nav-link" href="/booking">My Booking</a></li>
+                <% } else { %>
+                    <li class="nav-item"><a class="nav-link" href="/profile?select=my+booking">My Booking</a></li>
+                <% } %>
+                <li class="nav-item"><a class="nav-link" href="#">Promotions</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">About us</a></li>
+            </ul>
+            <hr class="my-2">
+            <div class="navbar-nav">
+                <div class="btn-group">
+                    <% if(!currentUser) {%> 
+                        <button type="button" id="log-in-btn" class="btn btn-outline-primary rounded-pill m-1 px-4" data-bs-toggle="modal" data-bs-target="#log-in-modal">LOG IN</button>
+                        <button type="button" id="sign-up-btn" class="btn btn-primary rounded-pill m-1 px-4" data-bs-toggle="modal" data-bs-target="#sign-up-modal">SIGN UP</button>
+                    <% } else { %>
+                        <div class="dropdown">
+                            <button type="button" class="btn btn-outline-primary rounded-pill p-1" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img <% if(!currentUser.image) { %>src="/pic/default-user-image.png"<% } else { %>src="<%= currentUser.image %>"<% } %> class="rounded-circle" width="30px" height="30px" style="object-fit: cover;">
+                            </button>
+                            <ul class="dropdown-menu position-absolute dropdown-menu-md-end shadow pt-0">
+                                <li><label class="dropdown-item bg-primary text-light fw-bold py-2"><i class="fas fa-user me-2"></i><%= currentUser.email.slice(0, currentUser.email.indexOf('@')) %></label></li>
+                                <li><a class="dropdown-item" href="/profile?select=my+profile">My Profile</a></li>
+                                <li><a class="dropdown-item" href="/profile?select=my+booking">My Booking</a></li>
+                                <% if(currentUser.role !== 'user' ) { %>
+                                    <li><a class="dropdown-item" href="/admin/booking">Admin</a></li>    
+                                <% } %> 
+                                <li><a class="dropdown-item" href="/logout">Log Out</a></li>
+                            </ul>
+                        </div>
+                    <% } %>
+                    <button type="button" class="btn btn-outline-secondary btn-sm rounded-pill m-1 px-3">USD</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>

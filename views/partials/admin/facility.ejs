@@ -1,0 +1,175 @@
+<% if(aircraft.seats.economy.number != undefined) { %> 
+    <h5 class="fw-bold form-label">Economy class</h5>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="economy[facility][baggage][number]" placeholder="Baggage number" min="0" required>
+                <input type="number" class="form-control" name="economy[facility][baggage][weight]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Cabin baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="economy[cabin_baggage]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+    </div>
+    <label class="fw-bold form-label">Facilities</label>
+    <div class="row mb-3 px-3">
+        <div class="border rounded py-1">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="economy[facility][extra_baggage]" id="flexCheckDefault">
+                <label class="form-check-label">Extra baggage</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="economy[facility][meal]" id="flexCheckDefault">
+                <label class="form-check-label">In flight meal</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="economy[facility][entertainment]" id="flexCheckDefault">
+                <label class="form-check-label">In flight entertainment</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="economy[facility][wifi]" id="flexCheckDefault">
+                <label class="form-check-label">Wifi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="economy[facility][usbport]" id="flexCheckDefault">
+                <label class="form-check-label">Power / USB port</label>
+            </div>
+        </div>
+    </div>
+<% } %> 
+
+<% if(aircraft.seats.premium.number != undefined) { %> 
+    <h5 class="fw-bold form-label">Premium class</h5>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="premium[facility][baggage][number]" placeholder="Baggage number" min="0" required>
+                <input type="number" class="form-control" name="premium[facility][baggage][weight]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Cabin baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="premium[cabin_baggage]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+    </div>
+    <label class="fw-bold form-label">Facilities</label>
+    <div class="row mb-3 px-3">
+        <div class="border rounded py-1">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="premium[facility][extra_baggage]" id="flexCheckDefault">
+                <label class="form-check-label">Extra baggage</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="premium[facility][meal]" id="flexCheckDefault">
+                <label class="form-check-label">In flight meal</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="premium[facility][entertainment]" id="flexCheckDefault">
+                <label class="form-check-label">In flight entertainment</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="premium[facility][wifi]" id="flexCheckDefault">
+                <label class="form-check-label">Wifi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="premium[facility][usbport]" id="flexCheckDefault">
+                <label class="form-check-label">Power / USB port</label>
+            </div>
+        </div>
+    </div>
+<% } %> 
+
+<% if(aircraft.seats.business.number != undefined) { %> 
+    <h5 class="fw-bold form-label">Bussiness class</h5>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="business[facility][baggage][number]" placeholder="Baggage number" min="0" required>
+                <input type="number" class="form-control" name="business[facility][baggage][weight]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Cabin baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="business[cabin_baggage]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+    </div>
+    <label class="fw-bold form-label">Facilities</label>
+    <div class="row mb-3 px-3">
+        <div class="border rounded py-1">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="business[facility][extra_baggage]" id="flexCheckDefault">
+                <label class="form-check-label">Extra baggage</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="business[facility][meal]" id="flexCheckDefault">
+                <label class="form-check-label">In flight meal</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="business[facility][entertainment]" id="flexCheckDefault">
+                <label class="form-check-label">In flight entertainment</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="business[facility][wifi]" id="flexCheckDefault">
+                <label class="form-check-label">Wifi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="business[facility][usbport]" id="flexCheckDefault">
+                <label class="form-check-label">Power / USB port</label>
+            </div>
+        </div>
+    </div>
+<% } %> 
+
+<% if(aircraft.seats.first.number != undefined) { %> 
+    <h5 class="fw-bold form-label">First class</h5>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="first[facility][baggage][number]" placeholder="Baggage number" min="0" required>
+                <input type="number" class="form-control" name="first[facility][baggage][weight]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <label class="fw-bold form-label">Cabin baggage</label>
+            <div class="input-group">
+                <input type="number" class="form-control" name="first[cabin_baggage]" placeholder="kg." min="0" required>
+            </div>
+        </div>
+    </div>
+    <label class="fw-bold form-label">Facilities</label>
+    <div class="row mb-3 px-3">
+        <div class="border rounded py-1">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="first[facility][extra_baggage]" id="flexCheckDefault">
+                <label class="form-check-label">Extra baggage</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="first[facility][meal]" id="flexCheckDefault">
+                <label class="form-check-label">In flight meal</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="first[facility][entertainment]" id="flexCheckDefault">
+                <label class="form-check-label">In flight entertainment</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="first[facility][wifi]" id="flexCheckDefault">
+                <label class="form-check-label">Wifi</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" name="first[facility][usbport]" id="flexCheckDefault">
+                <label class="form-check-label">Power / USB port</label>
+            </div>
+        </div>
+    </div>
+<% } %>

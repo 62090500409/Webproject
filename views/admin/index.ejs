@@ -1,0 +1,56 @@
+<%- include('../partials/header.ejs') %>
+    <link href="/index.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <%- include('../partials/admin/nav-bar.ejs') %>
+    </header>
+    <div class="container-fluid px-0 h-100">
+        <div class="row h-100">
+            <nav id="admin-sidemenu" class="col-md-3 col-lg-2 d-md-block sidebar collapse px-0">
+                <div class="position-sticky">
+                    <div class="dropdown m-3 px-2">
+                        <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <img <% if(currentUser.image) { %>src="<%= currentUser.image %>"<% } else { %>src="/pic/default-user-image.png"<% } %> width="32" height="32" class="rounded-circle me-2" style="object-fit: cover;">
+                            <strong class="text-primary"><%= currentUser.email.slice(0, currentUser.email.indexOf('@')) %></strong>
+                        </a>
+                        <ul class="dropdown-menu text-small shadow">
+                            <li><a class="dropdown-item" href="/profile?select=my+profile">My Profile</a></li>
+                            <li><a class="dropdown-item" href="/profile?select=my+booking">My Booking</a></li>
+                            <li><a class="dropdown-item" href="/home">Home</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="/logout">Log out</a></li>
+                        </ul>
+                    </div>
+                    <hr class="my-0">
+                    <ul class="list-group list-group-flush ps-2">
+                        <a class="list-group-item list-group-item-action <% if(select == "booking") { %>active<% } %>" href="/admin/booking"><i class="fas fa-book-open me-2"></i>Booking</a>
+                        <a class="list-group-item list-group-item-action <% if(select == "city") { %>active<% } %>" href="/admin/city"><i class="fas fa-flag me-2"></i>Country and City</a>
+                        <a class="list-group-item list-group-item-action <% if(select == "airport") { %>active<% } %>" href="/admin/airport"><i class="fas fa-plane-departure me-2"></i>Airport</a>
+                        <a class="list-group-item list-group-item-action <% if(select == "airline") { %>active<% } %>" href="/admin/airline"><i class="fab fa-avianex me-2"></i>Airline</a>
+                        <a class="list-group-item list-group-item-action <% if(select == "flight") { %>active<% } %>" href="/admin/flight"><i class="fas fa-plane me-2"></i>Flights</a>
+                        <a class="list-group-item list-group-item-action <% if(select == "transit") { %>active<% } %>" href="/admin/transit"><i class="fas fa-map-signs me-2"></i>Transits</a>
+                        <a class="list-group-item list-group-item-action <% if(select == "user") { %>active<% } %>" href="/admin/user"><i class="fas fa-user me-2"></i>User</a>
+                    </ul>
+                </div>
+            </nav>
+            <main class="col-md-9 ms-sm-auto bg-light col-lg-10 px-3">
+                <% if(select == "booking") { %>
+                    <%- include('../partials/admin/booking.ejs') %>
+                <% } else if(select == "city") { %>
+                    <%- include('../partials/admin/city.ejs') %>
+                <% } else if(select == "airport") { %>
+                    <%- include('../partials/admin/airport.ejs') %>
+                <% } else if(select == "airline") { %>
+                    <%- include('../partials/admin/airline.ejs') %>
+                <% } else if(select == "flight") { %>
+                    <%- include('../partials/admin/flight.ejs') %>
+                <% } else if(select == "transit") { %>
+                    <%- include('../partials/admin/transit.ejs') %>
+                <% } else if(select == "user") { %>
+                    <%- include('../partials/admin/user.ejs') %>
+                <% } %>
+            </main>
+        </div>
+    </div>
+</body>

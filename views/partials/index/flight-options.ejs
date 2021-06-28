@@ -1,0 +1,58 @@
+<div class="row pt-3 px-2">
+    <div class="col-auto" id="search-options">
+        <a class="btn btn btn-outline-secondary btn-sm dropdown-toggle rounded-pill" id="travel-type-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><%= travelType %></a>
+            <ul class="dropdown-menu" id="flight-type-menu" aria-labelledby="dropdownMenuLink">
+                <li><button class="flight-type-item dropdown-item<% if(travelType === 'One way') { %> active <% } %>" id="one-way">One way</button></li>
+                <li><button class="flight-type-item dropdown-item<% if(travelType === 'Round Trip') { %> active <% } %>" id="round-trip">Round Trip</button></li>
+                <li><button class="flight-type-item dropdown-item<% if(travelType === 'Multi Cities') { %> active <% } %>" id="multi-cities">Multi Cities</button></li>
+            </ul>
+        <a class="btn btn btn-outline-secondary btn-sm dropdown-toggle rounded-pill px-2" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i class="fas fa-user"></i><label id="total-traveler" class="ms-2"><%= parseInt(traveler.adult) + parseInt(traveler.child) + parseInt(traveler.infant) %></label></a>
+            <div class="dropdown-menu" style="width: 264px" id="traveler-form" aria-labelledby="dropdownMenuLink">
+                <form class="container px-3 py-1" >
+                    <div class="row mb-3">
+                            <div class="col-5">
+                                <p class="fw-bold mb-0">Adult</p>
+                                <small class="text-muted">Aged >12</small>
+                            </div>
+                            <div class="input-group col h-25 my-auto">
+                                <button type="button" class="btn btn-primary traveler-dec-btn"><i class="fas fa-minus"></i></button>
+                                <input type="text" class="border text-end px-3 traveler-no" style="width: 44px;" value="<%= traveler.adult %>" disabled></input>
+                                <button type="button" class="btn btn-primary traveler-inc-btn"><i class="fas fa-plus"></i></button>
+                            </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-5">
+                            <p class="fw-bold mb-0">Children</p>
+                            <small class="text-muted">Aged 2-12</small>
+                        </div>
+                        <div class="input-group col h-25 my-auto">
+                            <button type="button" class="btn btn-primary traveler-dec-btn"><i class="fas fa-minus"></i></button>
+                            <input type="text" class="border text-end px-3 traveler-no" style="width: 44px;" value="<%= traveler.child %>" disabled></input>
+                            <button type="button" class="btn btn-primary traveler-inc-btn"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-5">
+                            <p class="fw-bold mb-0">Infant</p>
+                            <small class="text-muted">Aged 0-2</small>
+                        </div>
+                        <div class="input-group col h-25 my-auto">
+                            <button type="button" class="btn btn-primary traveler-dec-btn"><i class="fas fa-minus"></i></button>
+                            <input type="text" class="border text-end px-3 traveler-no" style="width: 44px;" value="<%= traveler.infant %>" disabled></input>
+                            <button type="button" class="btn btn-primary traveler-inc-btn"><i class="fas fa-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <button type="button" id="traveler-done-btn" class="btn btn-primary btn-sm float-end mb-1">Done</button>
+                </form>
+            </div>
+        <a class="btn btn btn-outline-secondary btn-sm dropdown-toggle rounded-pill" id="flight-class-dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false"><%= flightClass %></a>
+            <ul class="dropdown-menu" id="flight-class-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="flight-class-item dropdown-item<% if(flightClass === 'Economy') { %> active <% } %>" id="economy">Economy</a></li>
+                    <li><a class="flight-class-item dropdown-item<% if(flightClass === 'Premium') { %> active <% } %>" id="premium">Premium</a></li>
+                    <li><a class="flight-class-item dropdown-item<% if(flightClass === 'Business') { %> active <% } %>" id="business">Business</a></li>
+                    <li><a class="flight-class-item dropdown-item<% if(flightClass === 'First') { %> active <% } %>" id="first">First</a></li>
+            </ul>
+    </div>  
+</div>     
+<hr class="mt-2 mb-3">

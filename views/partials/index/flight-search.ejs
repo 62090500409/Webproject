@@ -1,0 +1,14 @@
+<input id="travel-type" type="hidden" name="travelType" value="<%= travelType %>">
+<input id="flight-class" type="hidden" name="flightClass" value="<%= flightClass %>">
+<input id="traveler-adult" type="hidden" name="traveler[adult]" value="<%= traveler.adult %>">
+<input id="traveler-child" type="hidden" name="traveler[child]" value="<%= traveler.child %>">
+<input id="traveler-infant" type="hidden" name="traveler[infant]" value="<%= traveler.infant %>">
+<div class="row" id="search-flight-from">
+    <% if(travelType === 'One way') { %><%- include('one-way-sf.ejs') %><% }%>
+    <% if(travelType === 'Round Trip') { %><%- include('round-trip-sf.ejs') %><% }%>
+    <% if(travelType === 'Multi Cities') { %><%- include('multi-cities-sf.ejs') %><% }%>
+</div>
+
+<div class="position-absolute top-100 start-50 translate-middle">
+    <button id="search-flight-button" type="submit" class="btn btn-primary rounded-pill"><i class="fas fa-search"></i> SEARCH</button>
+</div>

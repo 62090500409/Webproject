@@ -1,0 +1,17 @@
+<div class="col-md-4 mb-3 search-flight-from-item" id="start-from-field">
+    <label class="fw-bold" for="start-from">From</label>
+    <div class="input-group">
+        <input class="form-control" id="start-from" type="search" name="startFrom" placeholder="From Country, City of Airport" value="<%= startFrom %>" required>
+        <button class="btn btn-primary" type="button" id="swap-from-to-button"><i class="fas fa-sync-alt"></i></button>
+    </div>
+</div>
+<div class="col-md-4 mb-3 search-flight-from-item" id="to-destination-field">
+    <label class="fw-bold" for="to-destination">To</label>
+    <div class="input-group">
+        <input class="form-control" id="to-destination" type="text" name="toDestination" placeholder="To Country, City of Airport" value="<%= toDestination %>" required>
+    </div>
+</div>
+<div class="col-md-4 mb-3 search-flight-from-item" id="departure-date-field">
+    <label class="fw-bold" for="departure-date">Departure Date</label><br>
+    <input class="form-control uneditable-date" id="departure-date" name="departureDate" type="date" value="<%= departureDate %>">
+</div>

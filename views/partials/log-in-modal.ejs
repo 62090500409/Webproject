@@ -1,0 +1,39 @@
+<div class="modal fade" id="log-in-modal" tabindex="-1" aria-labelledby="logInModal">
+    <div class="modal-dialog modal-dialog-centered modal-fullscreen-sm-down">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title fc-ocean"><i class="fas fa-sign-in-alt"></i> Log in</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form class="container" id="log-in-form" novalidate>
+                <div class="row mb-2">
+                    <div class="col-12">
+                        <label class="fw-bold" for="email">E-mail</label>
+                        <div class="input-group">
+                            <input class="form-control" id="email" type="email" name="email" placeholder="Your e-mail" required>
+                            <div class="invalid-feedback">fill in email</div>
+                        </div>
+                        <a href="#sign-up-modal" data-bs-toggle="modal" data-bs-dismiss="modal">I don't have acount</a>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <div class="col-md-12">
+                        <label class="fw-bold" for="password">Password</label>
+                        <div class="input-group">
+                            <input class="form-control" id="password" type="password" name="password" placeholder="Password" required>
+                            <div class="invalid-feedback">fill in password</div>
+                        </div>
+                        <a href="#">forget password?</a>
+                    </div>
+                </div>
+                <div class="row mb-2">
+                    <hr class="my-2">
+                    <button type="submit" class="btn btn-primary rounded-pill my-1">Confirm</button>
+                    <button class="btn btn-outline-primary rounded-pill" role="button" ><i class="fab fa-google"></i> Log in by g-mail</button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+</div> 

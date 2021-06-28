@@ -1,0 +1,145 @@
+<script type="module" src="/admin-user.js" async></script>
+<div class="chartjs-size-monitor">
+    <div class="chartjs-size-monitor-expand"><div class=""></div></div>
+    <div class="chartjs-size-monitor-shrink"><div class=""></div></div>
+</div>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h3><i class="fas fa-user me-2"></i>User</h3>
+    <div class="btn-toolbar mb-2 mb-md-0 px-2">
+      <div class="input-group me-2">
+          <span class="input-group-text"><i class="fas fa-search"></i></span>
+          <input type="text" id="user-filter" class="form-control" placeholder="Search">
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="user-more-details-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<% if(user.master.length > 0) { %> 
+    <h4>Master Admin</h4>
+    <div class="table-responsive mb-2">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Tel</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < user.master.length; i++) { %> 
+                    <tr class="align-middle">
+                        <td><%= user.master[i].email %></td>
+                        <td><% if(user.master[i].firstname) { %><%= user.master[i].firstname + " " + user.master[i].lastname %><% } else { %>Null<% } %></td>
+                        <td><% if(user.master[i].tel) { %><%= user.master[i].tel %><% } else { %>Null<% } %></td>
+                        <td class="text-end">
+                            <button class="btn btn-outline-primary btn-sm user-details-modal-btn" data-bs-toggle="modal" data-bs-target="#user-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                            <input type="hidden" value="<%= user.master[i]._id %>">
+                        </td>
+                    </tr>
+                <% } %> 
+            </tbody>
+        </table>
+    </div>
+<% } %> 
+
+<% if(user.admin.length > 0) { %> 
+    <h4>Admin</h4>
+    <div class="table-responsive mb-2">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Tel</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < user.admin.length; i++) { %> 
+                    <tr class="align-middle">
+                        <td><%= user.admin[i].email %></td>
+                        <td><% if(user.admin[i].firstname) { %><%= user.admin[i].firstname + " " + user.admin[i].lastname %><% } else { %>Null<% } %></td>
+                        <td><% if(user.admin[i].tel) { %><%= user.admin[i].tel %><% } else { %>Null<% } %></td>
+                        <td class="text-end">
+                            <button class="btn btn-outline-primary btn-sm user-details-modal-btn" data-bs-toggle="modal" data-bs-target="#user-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                            <input type="hidden" value="<%= user.admin[i]._id %>">
+                            <% if(currentUser.role === 'master') { %><button type="button" class="btn btn-warning btn-sm user-downgrade-btn"><i class="fas fa-angle-double-down" style="width: 14px;"></i></button><% } %>
+                        </td>
+                    </tr>
+                <% } %> 
+            </tbody>
+        </table>
+    </div>
+<% } %> 
+
+<% if(user.client.length > 0) { %> 
+    <h4>Client</h4>
+    <div class="table-responsive mb-2">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Tel</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < user.client.length; i++) { %> 
+                    <tr class="align-middle">
+                        <td><%= user.client[i].email %></td>
+                        <td><% if(user.client[i].firstname) { %><%= user.client[i].firstname + " " + user.client[i].lastname %><% } else { %>Null<% } %></td>
+                        <td><% if(user.client[i].tel) { %><%= user.client[i].tel %><% } else { %>Null<% } %></td>
+                        <td class="text-end">
+                            <form action="/admin/block/user=<%= user.client[i]._id %>?_method=PUT" method="POST">
+                                <button type="button" class="btn btn-outline-primary btn-sm user-details-modal-btn" data-bs-toggle="modal" data-bs-target="#user-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                                <input type="hidden" value="<%= user.client[i]._id %>">
+                                <% if(currentUser.role === 'master') { %><button type="button" class="btn btn-warning btn-sm user-upgrade-btn"><i class="fas fa-angle-double-up" style="width: 14px;"></i></button><% } %>
+                                <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-ban"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %> 
+            </tbody>
+        </table>
+    </div>
+<% } %>
+
+<% if(user.blocked.length > 0) { %> 
+    <h4>Blocked Client</h4>
+    <div class="table-responsive mb-2">
+        <table class="table table-striped table-sm">
+            <thead>
+            <tr>
+                <th>Email</th>
+                <th>Name</th>
+                <th>Tel</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+                <% for(let i = 0; i < user.blocked.length; i++) { %> 
+                    <tr class="align-middle">
+                        <td><%= user.blocked[i].email %></td>
+                        <td><% if(user.blocked[i].firstname) { %><%= user.blocked[i].firstname + " " + user.blocked[i].lastname %><% } else { %>Null<% } %></td>
+                        <td><% if(user.blocked[i].tel) { %><%= user.blocked[i].tel %><% } else { %>Null<% } %></td>
+                        <td class="text-end">
+                            <form action="/admin/unblock/user=<%= user.blocked[i]._id %>?_method=PUT" method="POST">
+                                <button class="btn btn-outline-primary btn-sm user-details-modal-btn" data-bs-toggle="modal" data-bs-target="#user-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                                <input type="hidden" value="<%= user.blocked[i]._id %>">
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-check"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                <% } %> 
+            </tbody>
+        </table>
+    </div>
+<% } %>

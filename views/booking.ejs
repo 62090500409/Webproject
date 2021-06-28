@@ -1,0 +1,58 @@
+<%- include('partials/header.ejs') %>
+    <link href="/index.css" rel="stylesheet">
+    <script type="module" src="/log-in-modal.js" async></script>
+    <script type="module" src="/sign-up-modal.js" async></script>
+    <script type="module" src="/booking-modal.js" async></script>
+</head>
+<body class="bg-light d-flex flex-column">
+
+<%- include('partials/nav-bar.ejs') %>
+<%- include('partials/sign-up-modal') %>
+<%- include('partials/log-in-modal') %>
+
+<main class="my-3">
+    <div class="container rounded-top position-relative bg-primary mt-sm-3 shadow-sm px-3 py-2">
+        <div class="row py-2">
+            <div class="col">
+                <label class="fw-bold fs-4 text-light mb-2 mb-lg-0"><i class="fas fa-search me-2"></i>Retrieve Booking</label>
+            </div>
+            <div class="col-lg-8 col-xl-9">
+                <form action="/booking" method="GET">
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="bid" placeholder="Booking ID" required>
+                        <input type="tel" class="form-control" name="tel" placeholder="Mobile number" required>
+                        <button class="btn btn-outline-light" type="submit">Retrieve</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <% for(let i = 0; i < booking.length; i++) { %> 
+        <div class="container <% if(i == booking.length - 1) { %> rounded-bottom <% } %> bg-white shadow-sm p-3">
+            <div class="row">
+                <div class="col-8">
+                    <label class="fw-bold text-primary text-capitalize fs-4"><i class="fas fa-ticket-alt me-2"></i><%= booking[i].flighttype + ' ' + booking[i].class %></label><br>
+                    <label class="fw-bold text-muted">BOOKING ID <%= booking[i].bid %></label>
+                </div>
+                <div class="col-4 text-end align-self-center">
+                    <button class="btn btn-outline-primary booking-details-modal-btn" data-bs-toggle="modal" data-bs-target="#booking-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                    <input type="hidden" value="<%= booking[i].bid %>">
+                    <% if(booking[i].status == 'WFP') { %>
+                        <a role="button" href="/booking/<%= booking[i]._id %>/payment" class="btn btn-warning booking-payment-btn"><i class="fas fa-dollar-sign mx-1"></i></a>
+                    <% } %> 
+                </div>
+            </div>
+        </div>
+    <% } %>
+</main>
+
+<div class="modal fade" id="booking-more-details-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+
+<%- include('partials/footer.ejs') %>

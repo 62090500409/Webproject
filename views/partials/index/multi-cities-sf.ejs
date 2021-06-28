@@ -1,0 +1,27 @@
+<% for(var i = 0; i < multiCities.length && i < 8; i++) { %> 
+    <div class="row multi-cities-travel-list">
+        <div class="col-sm-4 mb-3 search-flight-from-item">
+            <div class="input-group">
+                <input class="form-control start-from" id="start-from-<%= i %>" type="text" placeholder="From Country, City of Airport" name="multicities[<%= i %>][from]" value="<%= multiCities[i].startfrom %>" required>
+                <button class="btn btn-primary swap-button" type="button"><i class="fas fa-sync-alt"></i></button>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 search-flight-from-item">
+            <div class="input-group">
+                <input class="form-control to-destination" id="to-destination-<%= i %>" type="text" placeholder="To Country, City of Airport" name="multicities[<%= i %>][to]" value="<%= multiCities[i].todestination %>" required>
+            </div>
+        </div>
+        <div class="col-sm-4 mb-3 search-flight-from-item">
+            <div class="input-group">
+                <input class="form-control uneditable-date departure-date" id="departure-date-<%= i %> " type="date" name="multicities[<%= i %>][departuredate]" value="<%= multiCities[i].departuredate %>">
+                <button type="button" class="btn btn-danger remove-flight" id="remove-flight-btn-<%= i %>" <% if(multiCities.length < 3) { %>disabled<% } %>><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+    </div>
+<% } %>
+
+<div class="row mb-3" id="add-multicity">
+    <div class="col-auto ms-auto">
+        <button type="button" class="btn btn-primary rounded-pill ms-auto <% if(multiCities.length >= 7) { %>hidden<% } %>" id="add-multicity-btn"><i class="fas fa-plus me-2"></i>ADD ANOTHER FLIGHT</button>
+    </div>
+</div>

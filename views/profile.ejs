@@ -1,0 +1,207 @@
+<%- include('partials/header.ejs') %>
+    <link href="/index.css" rel="stylesheet">
+    <link href="/profile-user.css" rel="stylesheet">
+    <script type="module" src="/log-in-modal.js" async></script>
+    <script type="module" src="/sign-up-modal.js" async></script>
+    <script type="module" src="/profile-user.js" async></script>
+    <script type="module" src="/booking-modal.js" async></script>
+</head>
+<body class="bg-light d-flex flex-column">
+
+<%- include('partials/nav-bar.ejs') %>
+<%- include('partials/sign-up-modal') %>
+<%- include('partials/log-in-modal') %>
+
+<div class="container-md position-relative mt-sm-3 mb-sm-5 px-0 px-sm-3">
+    <div class="row">
+        <div class="col-md-5 col-xl-3">
+            <form id="user-img-form" action="/profile/edit/userimage" method="POST" enctype="multipart/form-data">
+                <div class="container rounded-3 bg-white shadow-sm py-3 px-0 my-sm-3">
+                    <div class="row justify-content-center text-center">
+                        <div class="col-8">
+                            <button type="button" class="image-upload btn btn-outline-secondary position-relative rounded-circle p-1">
+                                <label for="user-image-input">
+                                    <img <% if(!currentUser.image) { %>src="../pic/default-user-image.png"<% } else { %>src="..<%= currentUser.image %>"<% } %> class="img-fluid rounded-circle" style="width: 150px; height: 150px; object-fit: cover;">
+                                    <div class="position-absolute top-50 start-50 translate-middle showdetail-hover">
+                                        <label class="fw-bold" style="font-size: 0.6rem;"><i class="fas fa-image fs-1"></i><br>Change Image</label>
+                                    </div>
+                                </label>
+                                <input id="user-image-input" type="file" name="user_image" accept="image/*">
+                            </button>
+                        </div>
+                        <div class="mt-2">
+                            <label class="fw-bold text-primary fs-4"><% if(!currentUser.firstname) { %><%= currentUser.role %><% } else { %><%= currentUser.firstname + ' ' + currentUser.lastname.slice(0,1) + '.' %><% } %></label><br>
+                            <label class="fw-bold text-muted" style="font-size: 0.8rem;"><%= currentUser.email %></label>
+                        </div>
+                    </div>
+                    <hr class="mb-0">
+                    <div class="list-group list-group-flush mb-2">
+                        <button type="button" class="list-group-item list-group-item-action <% if(!select || select == 'my profile') { %>active<% } %>" data-bs-toggle="tab" data-bs-target="#pills-my-profile" role="tab">
+                            <i class="fas fa-id-badge me-3"></i>My Profile
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action <% if(select == 'my booking') { %>active<% } %>" data-bs-toggle="tab" data-bs-target="#pills-my-booking" role="tab">
+                            <i class="fas fa-bookmark me-3"></i>My Booking
+                        </button>
+                        <button type="button" class="list-group-item list-group-item-action" data-bs-toggle="tab" data-bs-target="#pills-my-add-traveler" role="tab">
+                            <i class="fas fa-user-plus me-3" style="width: 0.8rem;"></i>Add Traveler
+                        </button>
+                    </div>
+                    <div class="d-grid mx-2">
+                        <a role="button" class="btn btn-outline-primary fs-5" href="/logout">Log out</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="tab-content col-md-7 col-xl" id="profile-tab-content">
+            <div class="tab-pane fade <% if(!select || select == 'my profile') { %>show active<% } %>" id="pills-my-profile" role="tabpanel">
+                <div class="container rounded-3 bg-white shadow-sm py-3 px-3 my-sm-3">
+                    <div class="row">
+                        <div class="col-10">
+                            <h4><i class="fas fa-at me-2"></i>Email Address <label class="text-primary fs-4"><%= currentUser.email %></label></h4>
+                            <label class="text-muted">Email address to receive account-related notification.</label>
+                        </div>
+                        <!-- <div class="col-2 text-end align-self-center">
+                            <button class="btn btn-outline-primary"><i class="fas fa-edit"></i></button>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="container rounded-3 bg-white shadow-sm py-3 px-3 my-sm-3">
+                    <div class="row">
+                        <div class="col-10">
+                            <h4><i class="fas fa-key me-2"></i>Change Password</h4>
+                        </div>
+                        <div class="col-2 text-end align-self-center">
+                            <button class="btn btn-outline-primary"><i class="fas fa-envelope"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="container rounded-3 bg-white shadow-sm py-3 px-3 my-sm-3">
+                    <form id="profile-contract-details-form" action="/profile/edit/contract_detail" method="POST">
+                        <div class="row align-items-end">
+                            <div class="col-8">
+                                <h4><i class="fas fa-address-book me-2"></i>Contract Details</h4>
+                            </div>
+                            <div class="col text-end">
+                                <button type="button" id="contract-details-edit-btn" class="btn btn-outline-primary"><i class="fas fa-edit"></i></button>
+                                <button type="submit" id="contract-details-save-btn"  class="btn btn-primary" style="display: none;"><i class="fas fa-save"></i></button>
+                            </div>
+                        </div>
+                        <hr class="my-3">
+                        <div class="row mb-3">
+                            <div class="col-lg-6">
+                                <label class="form-label fw-bold">First Name</label>
+                                <input type="text" class="form-control" id="contract-firstname" name="contract[firstname]" <% if(currentUser.firstname) { %>value='<%= currentUser.firstname %>'<% } %> disabled required>
+                            </div>
+                            <div class="col-lg-6">
+                                <label class="form-label fw-bold">Last Name</label>
+                                <input type="text" class="form-control" id="contract-lastname" name="contract[lastname]" <% if(currentUser.lastname) { %>value='<%= currentUser.lastname %>'<% } %> disabled required>
+                            </div>
+                            <div class="col-lg-12">
+                                <label class="form-label fw-bold">Mobile Number</label>
+                                <input type="tel" class="form-control" id="contract-tel" name="contract[tel]" <% if(currentUser.tel) { %>value='<%= currentUser.tel %>'<% } %> disabled required>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="tab-pane fade <% if(select == 'my booking') { %>show active<% } %>" id="pills-my-booking" role="tabpanel">
+                <% if(booking.length < 1) { %> 
+                    <div class="container rounded-3 bg-white shadow-sm py-3 px-3 my-sm-3">
+                        <div class="row">
+                            <label class="fw-bold fs-3"><i class="fas fa-search me-2"></i>No Active Bookings Found</label>
+                            <label class="text-muted">Anything you booked shows up here, but it seems like you haven’t made any. Let’s create one via homepage!</label>
+                        </div>
+                    </div>
+                <% } else { %>
+                    <% let booking_WFP = [], booking_UPC = [], booking_CPL = []; %>
+                    <% for(let i = 0; i < booking.length; i++) { %>
+                        <% if(booking[i].status == 'WFP') { booking_WFP.push(booking[i]); %>
+                        <% } else if(booking[i].status == 'UPC') { booking_UPC.push(booking[i]); %>
+                        <% } else if(booking[i].status == 'CPL') { booking_CPL.push(booking[i]); } %>
+                    <% } %> 
+                    <% if(booking_WFP.length > 0) { %> 
+                        <div class="container rounded-top position-relative bg-warning mt-sm-3 shadow-sm">
+                            <div class="row py-2">
+                                <div class="col">
+                                    <label class="fw-bold fs-4"><i class="fas fa-dollar-sign me-2"></i>Have not paid booking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <% for(let i = 0; i < booking_WFP.length; i++) { %> 
+                            <div class="container <% if(i == booking_WFP.length - 1) { %> rounded-bottom <% } %> bg-white shadow-sm p-3">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <label class="fw-bold text-warning text-capitalize fs-4"><i class="fas fa-ticket-alt me-2"></i><%= booking_WFP[i].flighttype + ' ' + booking_WFP[i].class %></label><br>
+                                        <label class="fw-bold text-muted">BOOKING ID <%= booking_WFP[i].bid %></label>
+                                    </div>
+                                    <div class="col-4 text-end align-self-center">
+                                        <button class="btn btn-outline-primary booking-details-modal-btn" data-bs-toggle="modal" data-bs-target="#booking-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                                        <input type="hidden" value="<%= booking_WFP[i].bid %>">
+                                        <a role="button" href="/booking/<%= booking_WFP[i]._id %>/payment" class="btn btn-warning booking-payment-btn"><i class="fas fa-dollar-sign mx-1"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                    <% if(booking_UPC.length > 0) { %> 
+                        <div class="container rounded-top position-relative bg-primary mt-sm-3 shadow-sm">
+                            <div class="row py-2">
+                                <div class="col">
+                                    <label class="fw-bold fs-4 text-light"><i class="fas fa-search-dollar me-2"></i>Under processing booking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <% for(let i = 0; i < booking_UPC.length; i++) { %> 
+                            <div class="container  <% if(i == booking_WFP.length - 1) { %> rounded-bottom <% } %> bg-white shadow-sm p-3">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <label class="fw-bold text-primary text-capitalize fs-4"><i class="fas fa-ticket-alt me-2"></i><%= booking_UPC[i].flighttype + ' ' + booking_UPC[i].class %></label><br>
+                                        <label class="fw-bold text-muted">BOOKING ID <%= booking_UPC[i].bid %></label>
+                                    </div>
+                                    <div class="col-2 text-end align-self-center">
+                                        <button class="btn btn-outline-primary booking-details-modal-btn" data-bs-toggle="modal" data-bs-target="#booking-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                                        <input type="hidden" value="<%= booking_UPC[i].bid %>">
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                    <% if(booking_CPL.length > 0) { %> 
+                        <div class="container rounded-top position-relative bg-ocean mt-sm-3 shadow-sm">
+                            <div class="row py-2">
+                                <div class="col">
+                                    <label class="fw-bold fs-4 text-light"><i class="far fa-check-circle me-2"></i>Complete booking</label>
+                                </div>
+                            </div>
+                        </div>
+                        <% for(let i = 0; i < booking_CPL.length; i++) { %> 
+                            <div class="container  <% if(i == booking_WFP.length - 1) { %> rounded-bottom <% } %> bg-white shadow-sm p-3">
+                                <div class="row">
+                                    <div class="col-10">
+                                        <label class="fw-bold fc-ocean text-capitalize fs-4"><i class="fas fa-ticket-alt me-2"></i><%= booking_CPL[i].flighttype + ' ' + booking_CPL[i].class %></label><br>
+                                        <label class="fw-bold text-muted">BOOKING ID <%= booking_CPL[i].bid %></label>
+                                    </div>
+                                    <div class="col-2 text-end align-self-center">
+                                        <button class="btn btn-outline-primary booking-details-modal-btn" data-bs-toggle="modal" data-bs-target="#booking-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                                        <input type="hidden" value="<%= booking_CPL[i].bid %>">
+                                    </div>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="tab-pane fade" id="pills-my-add-traveler" role="tabpanel">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="booking-more-details-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer.ejs') %>

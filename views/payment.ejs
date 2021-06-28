@@ -1,0 +1,243 @@
+<%- include('partials/header.ejs') %>
+    <link href="/index.css" rel="stylesheet">
+    <script type="module" src="/log-in-modal.js" async></script>
+    <script type="module" src="/sign-up-modal.js" async></script>
+    <script type="module" src="/booking-modal.js" async></script>
+    <script type="module" src="/booking-payment.js" async></script>
+</head>
+<body class="bg-light d-flex flex-column">
+
+<%- include('partials/nav-bar.ejs') %>
+<%- include('partials/sign-up-modal') %>
+<%- include('partials/log-in-modal') %>
+
+<div class="container position-relative p-0 mb-sm-5">
+    <div class="row">
+        <div class="col-lg-5 order-lg-last">
+            <div class="container bg-white shadow-sm p-3 my-sm-3">
+                <div class="row">
+                    <div class="col-10 align-self-center">
+                        <label class="fw-bold text-secondary me-1">BOOKING ID</label>
+                        <label class="fw-bold text-primary"><%= booking.bid %></label>   
+                    </div>
+                    <div class="col-2 text-end">
+                        <button class="btn btn-outline-primary btn-sm booking-details-modal-btn" data-bs-toggle="modal" data-bs-target="#booking-more-details-modal"><i class="fas fa-ellipsis-h"></i></button>
+                        <input type="hidden" value="<%= booking.bid %>">
+                    </div>
+                </div>
+                <hr>
+                <label class="fw-bold me-1">YOUR TRIP</label>
+                <label class="me-1 text-secondary fw-bold"><%= booking.flighttype %></label>
+                <label class="text-secondary fw-bold text-capitalize"><%= flights[0].class %></label><br>
+                <div class="row px-2">
+                    <label class="me-1 fw-bold">
+                        <% if(booking.flighttype == 'Round Trip'){ %>
+                            <i class="far fa-clock me-1"></i>
+                            <%= new Date(flights[0].transits[0].departuredate).toDateString().slice(4) + ' - ' +  new Date(flights[1].transits[flights[1].transits.length - 1].arrivaldate).toDateString().slice(4) %>
+                            <br><label class="ms-4 me-1 text-primary fw-bold">
+                                <%= flights[0].from.city.name + ' (' + flights[0].from.iata + ')'%> - 
+                                <%= flights[0].to.city.name + ' (' + flights[0].to.iata + ')'%>
+                            </label>
+                            <% } %> 
+                        <% if(booking.flighttype == 'One way' || booking.flighttype == 'Multi Cities'){ %>
+                            <% for(let i = 0; i < flights.length; i++){ %>
+                                <i class="far fa-clock me-1"></i>
+                                <%= new Date(flights[i].transits[0].departuredate).toDateString().slice(4) %><br>
+                                <label class="ms-4 me-1 text-primary fw-bold">
+                                    <%= flights[i].from.city.name + ' (' + flights[i].from.iata + ')'%> - 
+                                    <%= flights[i].to.city.name + ' (' + flights[i].to.iata + ')'%>
+                                </label><br>
+                            <% } %> 
+                        <% } %>
+                </div>
+                <hr>
+                <label class="fw-bold me-1">TRALELER</label>
+                <label class="me-1 text-secondary fw-bold"><%= booking.traveler.adult.length + booking.traveler.child.length + booking.traveler.infant.length %> People</label>
+                <% for(let traveler of booking.traveler.adult){ %>
+                <div class="row px-2">
+                    <label class="fw-bold text-primary"><i class="fas fa-user me-3" style="width: 0.5rem;"></i><%= traveler.title + traveler.firstname + ' ' + traveler.lastname %></label>
+                </div>
+                <% } %>
+                <% for(let traveler of booking.traveler.child){ %>
+                <div class="row px-2">
+                    <label class="fw-bold text-primary"><i class="fas fa-child me-3" style="width: 0.5rem;"></i><%= traveler.title + traveler.firstname + ' ' + traveler.lastname %></label>
+                </div>
+                <% } %>
+                <% for(let traveler of booking.traveler.infant){ %>
+                <div class="row px-2">
+                    <label class="fw-bold text-primary"><i class="fas fa-baby me-3" style="width: 0.5rem;"></i><%= traveler.title + traveler.firstname + ' ' + traveler.lastname %></label>
+                </div>
+                <% } %>
+            </div>
+        </div>
+        <div class="col-lg-7">
+            <% if(booking.status == "WFP") { %>
+            <form action="/booking/<%= booking._id %>/payment/comfirm" method="POST">
+                <div class="container bg-white shadow-sm p-3 mb-sm-3 my-lg-3">
+                    <div class="row align-items-end">
+                        <h4><i class="fas fa-money-check-alt me-2"></i>Payment Details</h4>
+                    </div>
+                    <hr class="my-3">
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label fw-bold">Card number<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="16 digits card number" required>
+                            <div class="invalid-feedback">Invalid card number.</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">Valid Until<span class="text-danger">*</span></label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" placeholder="Expire month" min="1" max="12" required>
+                                <input type="number" class="form-control" placeholder="Expire year" min="<%= new Date().getFullYear() %>" required>
+                            </div>
+                            <div class="invalid-feedback">Fill in details.</div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label fw-bold">CVV<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="3 digits CVV" required>
+                            <div class="invalid-feedback">Invalid CVV.</div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col">
+                            <label class="form-label fw-bold">Name on card<span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" placeholder="Name on card" required>
+                            <div class="invalid-feedback">Fill in details.</div>
+                        </div>
+                    </div>
+                    <div class="row align-items-end">
+                        <h4><i class="fas fa-money-bill me-2"></i>Price Details</h4>
+                    </div>
+                    <div class="row ps-2">
+                        <% if(booking.traveler.adult.length > 0){ %> 
+                            <div class="col col-sm-8">
+                                <label class="fw-bold text-secondary">Adult (x<%= booking.traveler.adult.length %>)</label>
+                            </div>
+                            <div class="col col-sm-4 text-end">
+                                <label class="fw-bold text-primary"><%= (booking.price.adult * booking.traveler.adult.length).toFixed(2) %> USD</label>
+                            </div>
+                        <% } %> 
+                    </div>
+                    <div class="row ps-2">
+                        <% if(booking.traveler.child.length > 0){ %> 
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">Child (x<%= booking.traveler.child.length %>)</label>
+                        </div> 
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-primary"><%= (booking.price.child * booking.traveler.child.length).toFixed(2) %> USD</label>
+                        </div>
+                        <% } %> 
+                    </div>
+                    <div class="row ps-2">
+                        <% if(booking.traveler.infant.length > 0){ %> 
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">Child (x<%= booking.traveler.infant.length %>)</label>
+                        </div>
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-primary"><%= (booking.price.infant * booking.traveler.infant.length).toFixed(2)  %> USD</label>
+                        </div>
+                        <% } %> 
+                    </div>
+                    <hr class="mb-2">
+                    <div class="row ps-2">
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">Total</label>
+                        </div>
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-primary"><%= (booking.price.adult * booking.traveler.adult.length + booking.price.child * booking.traveler.child.length + booking.price.infant * booking.traveler.infant.length).toFixed(2) %>  USD</label>
+                        </div>
+                    </div>
+                    <div class="row mt-3 px-2">
+                        <div class="col me-2">
+                            <div class="row">
+                                <button id="cancel-payment-btn" type="button" class="btn btn-danger">CANCLE</button>
+                                <input type="hidden" value="<%= booking._id %>">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <button type="submit" class="btn btn-primary">CONFIRM</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <% } else { %>
+                <div class="container bg-white shadow-sm p-3 mb-sm-3 my-lg-3">
+                    <% if(booking.status == "UPC") { %> 
+                    <div class="row my-3 text-center">
+                        <h1 class="text-primary fw-bold" style="font-size: 5rem;"><i class="fas fa-search-dollar"></i></h1>
+                        <h2 class="text-primary fw-bold">UNDER PROCESSING</h2>
+                        <label class="text-muted">wait for verification of your purchase</label>
+                    </div>
+                    <% } else if(booking.status == "CPL") { %> 
+                        <h1 class="fc-ocean fw-bold" style="font-size: 5rem;"><i class="far fa-check"></i></h1>
+                        <h2 class="fc-ocean fw-bold">PURCHASE COMPLETE</h2>
+                    <% } %>
+                    <hr>
+                    <div class="row align-items-end">
+                        <h4><i class="fas fa-money-bill me-2"></i>Price Details</h4>
+                    </div>
+                    <div class="row ps-2">
+                        <% if(booking.traveler.adult.length > 0){ %> 
+                            <div class="col col-sm-8">
+                                <label class="fw-bold text-secondary">Adult (x<%= booking.traveler.adult.length %>)</label>
+                            </div>
+                            <div class="col col-sm-4 text-end">
+                                <label class="fw-bold text-primary"><%= (booking.price.adult * booking.traveler.adult.length).toFixed(2) %> USD</label>
+                            </div>
+                        <% } %> 
+                    </div>
+                    <div class="row ps-2">
+                        <% if(booking.traveler.child.length > 0){ %> 
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">Child (x<%= booking.traveler.child.length %>)</label>
+                        </div> 
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-primary"><%= (booking.price.child * booking.traveler.child.length).toFixed(2) %> USD</label>
+                        </div>
+                        <% } %> 
+                    </div>
+                    <div class="row ps-2">
+                        <% if(booking.traveler.infant.length > 0){ %> 
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">Child (x<%= booking.traveler.infant.length %>)</label>
+                        </div>
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-primary"><%= (booking.price.infant * booking.traveler.infant.length).toFixed(2)  %> USD</label>
+                        </div>
+                        <% } %> 
+                    </div>
+                    <div class="row ps-2">
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">TAX.</label>
+                        </div>
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-muted">included</label>
+                        </div>
+                    </div>
+                    <hr class="mb-2">
+                    <div class="row ps-2">
+                        <div class="col col-sm-8">
+                            <label class="fw-bold text-secondary">Total</label>
+                        </div>
+                        <div class="col col-sm-4 text-end">
+                            <label class="fw-bold text-primary"><%= (booking.price.adult * booking.traveler.adult.length + booking.price.child * booking.traveler.child.length + booking.price.infant * booking.traveler.infant.length).toFixed(2) %>  USD</label>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="booking-more-details-modal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-fullscreen-sm-down modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer.ejs') %>

@@ -1,0 +1,364 @@
+<%- include('../partials/header.ejs') %>
+    <script type="module" src="../../admin-new.js" async></script>
+</head>
+<body class="bg-light">
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-country-form" aria-expanded="false">
+            <h3><i class="fas fa-flag"></i> New Country</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-country-form">
+            <form method="POST" action="/admin/new/country" enctype="multipart/form-data">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Name and Initial</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="name" placeholder="Country's name" required>
+                            <input type="text" class="form-control" name="initial" placeholder="Country's initial" required>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Flag</label>
+                        <input class="form-control" type="file" id="flag-img-file" name="flag" accept="image/*">
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-city-form" aria-expanded="false">
+            <h3><i class="fas fa-city"></i> New City</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-city-form">
+            <form method="POST" action="/admin/new/city">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="City's name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold form-label">Country</label>
+                        <select class="form-select" name="country">
+                            <% countries.forEach(country => { %> 
+                                <option value="<%= country._id %>"><%= country.name %></option> 
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold form-label">Timezone</label>
+                        <div class="input-group">
+                            <span class="input-group-text">UTC</span>
+                            <input type="number" class="form-control" name="utc" placeholder="Timezone" min='-12' max='12' value="0" required>
+                        </div>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-airport-form" aria-expanded="false">
+            <h3><i class="fas fa-plane-departure"></i> New Airport</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-airport-form">
+            <form method="POST" action="/admin/new/airport">
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label class="fw-bold form-label">Name</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="name" placeholder="Airport's full name" required>
+                            <input type="text" class="form-control" name="shortname" placeholder="Airport's short name" required>
+                            <input type="text" class="form-control" name="iata" placeholder="IATA" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold form-label">City</label>
+                        <select class="form-select" name="city">
+                            <% cities.forEach(city => { %> 
+                                <option value="<%= city._id %>"><%= city.name %></option> 
+                            <% }); %>
+                        </select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-airline-form" aria-expanded="false">
+            <h3><i class="fab fa-avianex"></i> New Airline</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-airline-form">
+            <form method="POST" action="/admin/new/airline" enctype="multipart/form-data">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Airline's name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Logo</label>
+                        <input type="file" class="form-control" name="logo" placeholder="Airline's Logo image" accept="image/*" required>
+                    </div>
+                </div>
+                <label class="fw-bold form-label">Extra Baggage</label>
+                <div class="row mb-3 extrabaggage-list">
+                    <div class="input-group">
+                        <span class="input-group-text">Weight</span>
+                        <input type="number" class="form-control extbag-weight" name="extrabaggage[0][weight]" placeholder="kg." min='0' required>
+                        <span class="input-group-text">Price</span>
+                        <input type="number" class="form-control extbag-price" name="extrabaggage[0][price]" min='0' step="0.01" required>
+                        <span class="input-group-text">$</span>
+                        <button type="button" class="btn btn-danger del-extbag-btn"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary" id="add-extbag-btn">Add extra baggage rate</button>
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-aircraft-form" aria-expanded="false">
+            <h3><i class="fas fa-plane"></i> New Aircraft</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-aircraft-form">
+            <form method="POST" action="/admin/new/aircraft">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Airline</label>
+                        <select class="form-select" name="airline">
+                            <% airlines.forEach(airline => { %> 
+                                <option value="<%= airline.name %>"><%= airline.name %></option> 
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Model</label>
+                        <div class="input-group">
+                            <input type="text" class="form-control" name="model" placeholder="Aircraft's model" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3" id="aircraftSeats">
+                    <label class="fw-bold form-label">Number of Seats</label>
+                    <div class="col-12 mb-3">
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0 me-2" id="economy" type="checkbox">
+                                <span>Economy</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="Seat number" min="0" disabled>
+                            <input type="text" class="form-control" placeholder="Seat layout" disabled>
+                            <input type="number" class="form-control" placeholder="Seat pitch" min="0" disabled>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0 me-2" id="premium" type="checkbox">
+                                <span>Premium</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="Seat number" min="0" disabled>
+                            <input type="text" class="form-control" placeholder="Aircraft's seatlayout" disabled>
+                            <input type="number" class="form-control" placeholder="Aircraft's seatpitch" min="0" disabled>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0 me-2" id="bussiness" type="checkbox">
+                                <span>Bussiness</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="Seat number" min="0" disabled>
+                            <input type="text" class="form-control" placeholder="Aircraft's seatlayout" disabled>
+                            <input type="number" class="form-control" placeholder="Aircraft's seatpitch" min="0" disabled>
+                        </div>
+                    </div>
+                    <div class="col-12 mb-3">
+                        <div class="input-group">
+                            <div class="input-group-text">
+                                <input class="form-check-input mt-0 me-2" id="first" type="checkbox">
+                                <span>First</span>
+                            </div>
+                            <input type="number" class="form-control" placeholder="Seat number" min="0" disabled>
+                            <input type="text" class="form-control" placeholder="Aircraft's seatlayout" disabled>
+                            <input type="number" class="form-control" placeholder="Aircraft's seatpitch" min="0" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-fligth-form" aria-expanded="false">
+            <h3><i class="fas fa-book-open"></i> New Flight</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-fligth-form">
+            <form method="POST" action="/admin/new/flight">
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <label class="fw-bold form-label">Airline</label>
+                        <select class="form-select" name="airline" id="airline-list">
+                            <option value="0">select an airline</option>
+                            <% airlines.forEach(airline => { %>
+                                <option value="<%= airline._id %>"><%= airline.name%></option>
+                            <% }); %> 
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold form-label">Flight name</label>
+                        <input type="text" class="form-control" name="name" placeholder="Flight's name" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label class="fw-bold form-label">Aircraft</label>
+                        <select class="form-select" name="aircraft" id="aircraft-list">
+                            <option value="0">none</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-md-8">
+                        <label class="fw-bold form-label">Departure</label>
+                        <div class="input-group ">
+                            <span class="input-group-text">from</span>
+                            <select class="form-select" name="departureFrom">
+                                <% airports.forEach(airport => { %>
+                                    <option value="<%= airport._id %>"><%= airport.shortname %> (<%= airport.iata %>)</option>
+                                <% }); %> 
+                            </select>
+                            <span class="input-group-text">to</span>
+                            <select class="form-select" name="toDestination">
+                                <% airports.forEach(airport => { %>
+                                    <option value="<%= airport._id %>"><%= airport.shortname %> (<%= airport.iata %>)</option>
+                                <% }); %>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold form-label">Departure time</label>
+                        <input type="time" class="form-control" name="departureTime" required>
+                    </div>
+                    <div class="col-md-2">
+                        <label class="fw-bold form-label">Arrival time</label>
+                        <input type="time" class="form-control" name="arrivalTime" required>
+                    </div>
+                </div>
+                <div id='facility-field'></div>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="container rounded position-relative bg-white shadow-sm mt-sm-3 px-0">
+        <div class="px-3 pt-3" role="button" data-bs-toggle="collapse" href="#new-transit-form" aria-expanded="false">
+            <h3><i class="fas fa-map-signs"></i> New Transition</h3>
+        </div>
+        <hr>
+        <div class="collapse pt-1 pb-3 px-3" id="new-transit-form">
+            <form method="POST" action="/admin/new/transit">
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Airline</label>
+                        <select class="form-select" id="transit-airline">
+                            <option value="0">select an airline</option>
+                            <% airlines.forEach(airline => { %>
+                                <option value="<%= airline._id %>"><%= airline.name%></option>
+                            <% }); %>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="fw-bold form-label">Class</label>
+                        <select class="form-select" id="transit-class" name="class">
+                            <option value="economy">Economy</option>
+                            <option value="premium">Premium</option>
+                            <option value="business">Bussiness</option>
+                            <option value="first">First</option>
+                        </select>
+                    </div>
+                </div>
+                <h5 class="fw-bold form-label">Transition</h5>
+                <div class="border rounded p-3 mb-3 transit-detail">
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label class="fw-bold form-label">Departure</label>
+                            <div class="input-group ">
+                                <span class="input-group-text">from</span>
+                                <select class="form-select transit-departure-from" name="from[0]">
+                                    <option value="0">select an airport</option>
+                                    <% airports.forEach(airport => { %>
+                                        <option value="<%= airport._id %>"><%= airport.shortname %> (<%= airport.iata %>)</option>
+                                    <% }); %> 
+                                </select>
+                                <span class="input-group-text">to</span>
+                                <select class="form-select transit-arrival-to" name="to[0]">
+                                    <option value="0">select an airport</option>
+                                    <% airports.forEach(airport => { %>
+                                        <option value="<%= airport._id %>"><%= airport.shortname %> (<%= airport.iata %>)</option>
+                                    <% }); %>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold form-label">Flight</label>
+                            <select class="form-select flight-list" name="flight[0]">
+                                <option value="0">none</option>
+                            </select>
+                            <input type="hidden" class="seats-number" name="seats[0]">
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-md-3">
+                            <label class="fw-bold form-label">Departure date</label>
+                            <input type="date" class="form-control departure-date" name="departureDate[0]" required>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="fw-bold form-label">Arrival date</label>
+                            <input type="date" class="form-control arrival-date" name="arrivalDate[0]" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="fw-bold form-label">Price</label>
+                            <div class="input-group">
+                                <span class="input-group-text">Adult</span>
+                                <input type="number" class="form-control price-adult" name="price[0][adult]" min='0' step="0.01" required>
+                                <span class="input-group-text">$</span>
+                                <span class="input-group-text">Infant</span>
+                                <input type="number" class="form-control price-infant" name="price[0][infant]" min='0' step="0.01" required>
+                                <span class="input-group-text">$</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <button type="button" class="btn btn-primary me-2" id="append-transit">Append new transition</button>
+                    <button type="button" class="btn btn-danger" id="deppend-transit">Deppend transition</button>
+                    <button type="submit" class="btn btn-primary ms-auto">Submit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+<%- include('../partials/footer.ejs') %>

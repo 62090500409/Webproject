@@ -1,0 +1,22 @@
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+    <% if(error && error.length > 0) { %>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong><i class="fas fa-exclamation-triangle me-2"></i></strong><%= error %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+    <% if(success && success.length > 0) { %>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong><i class="fas fa-check-circle me-2"></i></strong><%= success %>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <% } %>
+</div>
+
+<footer class="bg-white footer mt-auto">
+    <div class="container-fluid pt-5 pb-0">
+        <p class="text-center">I am just a stupid footer <br>@Copy Majak Nai Net</p>
+    </div>
+</footer>
+</body>
+</html>

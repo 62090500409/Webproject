@@ -1,0 +1,28 @@
+.image-upload {
+    cursor: pointer;
+}
+
+.image-upload img {
+    cursor: pointer;
+}
+
+.image-upload > input {
+    display: none;
+}
+
+.showdetail-hover{
+    opacity: 0;
+    transition: .2s ease;
+}
+
+.image-upload:hover {
+    justify-content: center;
+}
+
+.image-upload:hover img{
+    opacity: .5;
+}
+
+.image-upload:hover .showdetail-hover{
+    opacity: 1;
+}

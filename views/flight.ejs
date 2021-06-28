@@ -1,0 +1,72 @@
+<%- include('partials/header.ejs') %>
+    <link href="/index.css" rel="stylesheet">
+    <link href="/sidebar.css" rel="stylesheet">
+    <script type="module" src="index.js" async></script>
+    <script type="module" src="flight.js" async></script>
+    <script type="module" src="log-in-modal.js" async></script>
+    <script type="module" src="sign-up-modal.js" async></script>
+</head>
+<body class="bg-light d-flex flex-column">
+    <%- include('partials/nav-bar.ejs') %>
+    <%- include('partials/sign-up-modal') %>
+    <%- include('partials/log-in-modal') %>
+    
+    <main>
+        <div class="d-flex" id="wrapper">
+        <!-- Sidebar-->
+            <div class="bg-white border-right" id="sidebar-wrapper">
+                <div class="px-3 pt-3">
+                    <h5 class="d-inline sidebar-heading"><i class="fas fa-filter"></i> Filter</h5>
+                    <button type="button" class="btn btn-close float-end" id="filter-close"></button>
+                </div>
+                <hr class="mx-2">
+                <div class="px-3">
+                    <label class="fw-bold fs-5"><i class="fas fa-sort me-2"></i>Sort</label>
+                    <div class="form-check">
+                        <input class="form-check-input" id="lowest-price-radio" type="radio" name="sortby" value="lowest price">
+                        <label class="form-check-label fw-bold">Sort by lowest price</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" id="highest-price-radio" type="radio" name="sortby" value="highest price">
+                        <label class="form-check-label fw-bold">Sort by highest price</label>
+                    </div>
+                </div>
+            </div>
+        <!-- Page Content-->
+            <div id="page-content-wrapper">
+                <div class="px-sm-3">
+                    <div class="container-sm rounded position-relative bg-white shadow-sm pb-3 mt-sm-3">
+                        <%- include('partials/index/flight-options.ejs') %>
+                        <form class="form-group container" action="/flight" method="POST" id="flight-search-form" autocomplete="off">
+                            <%- include('partials/index/flight-search.ejs') %> 
+                        </form>
+                    </div>
+                </div>
+                <div class="px-3 mb-3" id="summary-prebooking">
+                    <div class="container-sm rounded-3 position-relative bg-white mb-3 shadow-sm p-3" style="display: none;">
+                        <div class="row">
+                            <div class="col-sm align-self-center">
+                                <h4 class="fw-bold"><i class="fas fa-coins me-2"></i>Summary</h4>
+                            </div>
+                            <div class="col-sm-8 align-self-center text-end">
+                                <span class="align-middle me-2">
+                                    <label class="fw-bold me-2">total</label>
+                                    <label class="text-primary fw-bold fs-5" id='summary-prebooking-total'>XXX.XX</label>
+                                    <label class="fw-bold fs-5">USD</label>
+                                </span>
+                                <button class="btn btn-primary" id="confirm-prebooking">confirm</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-3 mb-3" id="flight-search-result"></div>
+                <div class="px-4 mt-5 text-secondary text-center" id="spinner-processing" style="display: none;">
+                    <div class="spinner-border" style="width: 3rem; height: 3rem;" role="status" aria-hidden="true"></div><br>
+                    <h3 class="fw-bold">Processing</h3>
+                </div>
+            </div>
+        </div>
+    </main>
+
+
+<%- include('partials/footer.ejs') %>
